@@ -7,12 +7,27 @@
   "author": "Arthur Gunn",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest",
+    "prepublish": "yarn run test && yarn run build"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "((\\.|/)test)\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ]
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
+    "@types/jest": "^22.1.1",
+    "jest": "^22.1.4",
+    "ts-jest": "^22.0.2",
     "typescript": "^2.7.1"
   },
   "dependencies": {

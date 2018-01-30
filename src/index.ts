@@ -7,13 +7,13 @@ export class PureStore<S, T> {
   getter?: (s: S)=>T = null
   isTopLevelStore: boolean
 
-  constructor(state, getter?) {
+  constructor(state: S, getter?: (s: S)=>T) {
     this.isTopLevelStore = !getter
     this.state  = state
-    this.getter = getter || (s=> s)
+    this.getter = getter || (s=> <T><any>s)
   }
 
-  getState = ()=> this.getter(this.state)
+  getState = (): T=> this.getter(this.state)
 
   update = (updater: ((e: T)=> void)|Partial<T>)=> {
     let updaterFn: (e: T)=> void
@@ -51,4 +51,8 @@ export class PureStore<S, T> {
 }
 
 
-export default state=> new PureStore(state)
+const createStore = <S>(state: S)=> (
+  new PureStore(state, (s: S)=> s)
+)
+
+export default createStore
