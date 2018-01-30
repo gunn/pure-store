@@ -1,0 +1,21 @@
+{
+  "name": "pure-store",
+  "version": "0.1.0",
+  "description": "A tiny immutable store with type safety.",
+  "main": "dist/index.js",
+  "repository": "https://github.com/gunn/pure-store",
+  "author": "Arthur Gunn",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "typescript": "^2.7.1"
+  },
+  "dependencies": {
+    "immer": "^1.0.0"
+  }
+}
