@@ -3,7 +3,13 @@ import createStore from "./index"
 
 interface State {
   numberOfWalks: number
-  animals: any[]
+  animals: [
+    {
+      name: string
+      age: number
+      isBad?: boolean
+    }
+  ]
 }
 
 const state: State = {
@@ -32,10 +38,66 @@ test("Allows access to state", ()=> {
   expect(storeState.animals[1].name).toBe("Sen")
 })
 
-test("Simple function updates", ()=> {
+test("Allow function updates", ()=> {
   expect(store.getState().numberOfWalks).toBe(2876)
 
   store.update(s=> s.numberOfWalks++)
 
   expect(store.getState().numberOfWalks).toBe(2877)
+})
+
+test("Allow object updates", ()=> {
+  store.update({numberOfWalks: 100})
+
+  expect(store.getState().numberOfWalks).toBe(100)
+})
+
+test("More Updating", ()=> {
+  store.update(s=> s.animals.push({name: "Odin", age: 5}))
+
+  expect(store.getState().animals.length).toBe(3)
+})
+
+test("Using a sub-store", ()=> {
+  const odinStore = store.storeFor(s=> s.animals[2])
+
+  expect(odinStore.getState().name).toBe("Odin")
+  expect(odinStore.getState().isBad).toBe(undefined)
+
+  odinStore.update({isBad: true})
+  expect(odinStore.getState().isBad).toBe(true)
+})
+
+
+describe("Immutability", ()=> {
+  const senStore = store.storeFor(s=> s.animals[1])
+
+  test("Unmodified objects stay the same", ()=> {
+    const before     = senStore.getState()
+    const rootBefore = store.getState().animals[1]
+    expect(before).toBe(rootBefore)
+
+    expect(before).toBe(senStore.getState())
+    expect(rootBefore).toBe(store.getState().animals[1])
+  })
+
+  test("Modified objects are different objects", ()=> {
+    const before     = senStore.getState()
+    const rootBefore = store.getState().animals[1]
+    expect(before).toBe(rootBefore)
+
+    senStore.update({isBad: false})
+
+    expect(before).not.toBe(senStore.getState())
+    expect(rootBefore).not.toBe(store.getState().animals[1])
+  })
+})
+
+test("Updaters", ()=> {
+  const aiofeUpdater = store.updaterFor(s=> s.animals[0])
+
+  expect(store.getState().animals[0].isBad).toBe(undefined)
+
+  aiofeUpdater(aiofe=> aiofe.isBad = false)
+  expect(store.getState().animals[0].isBad).toBe(false)
 })

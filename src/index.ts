@@ -3,17 +3,19 @@ import produce from "immer"
 
 export class PureStore<S, T> {
   callbacks = []
-  state: S = null
+  state?: S
   getter?: (s: S)=>T = null
   isTopLevelStore: boolean
+  root: any
 
-  constructor(state: S, getter?: (s: S)=>T) {
-    this.isTopLevelStore = !getter
-    this.state  = state
+  constructor(state: S, getter?: (s: S)=>T, root?) {
+    this.isTopLevelStore = !root
+    this.root = root || this
+    if (this.isTopLevelStore) this.state = state
     this.getter = getter || (s=> <T><any>s)
   }
 
-  getState = (): T=> this.getter(this.state)
+  getState = (): T=> this.getter(this.root.state)
 
   update = (updater: ((e: T)=> void)|Partial<T>)=> {
     let updaterFn: (e: T)=> void
@@ -24,7 +26,7 @@ export class PureStore<S, T> {
       updaterFn = e=> Object.assign(e, updater)
     }
 
-    this.state = produce(this.state, s=> {
+    this.root.state = produce(this.root.state, s=> {
       const baseObject = this.getter(s)
       updaterFn(baseObject)
     })
@@ -32,12 +34,12 @@ export class PureStore<S, T> {
     this.callbacks.forEach(callback=> callback())
   }
 
-  storeFor = (getter: (s: S)=>T)=> (
-    new PureStore(this.state, getter)
+  storeFor = <X>(getter: (s: S)=>X)=> (
+    new PureStore(this.root.state, getter, this)
   )
 
-  updaterFor = (getter: (s: S)=>T)=> (
-    (new PureStore(this.state, getter)).update
+  updaterFor = <X>(getter: (s: S)=>X)=> (
+    (new PureStore(this.root.state, getter, this)).update
   )
 
   subscribe = callback=> {
