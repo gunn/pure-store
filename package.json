@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "description": "A tiny immutable store with type safety.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "https://github.com/gunn/pure-store",
   "author": "Arthur Gunn",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "prepublish": "yarn run test && yarn run build"
+    "prepublish": "yarn test && yarn build"
   },
   "jest": {
     "transform": {

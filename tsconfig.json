@@ -11,5 +11,11 @@
       "es2017",
       "dom"
     ]
-  }
+  },
+  "files": [
+    "src/index.ts"
+  ],
+  "exclude": [
+    "src/*.test.ts"
+  ]
 }
