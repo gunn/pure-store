@@ -10,4 +10,4 @@
 
 ## Comparison with redux
 
-<img src="comparison.png" width="890" />
+<img src="comparison.png" width="888" />
