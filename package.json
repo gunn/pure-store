@@ -10,8 +10,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "prepublish": "yarn test && yarn build"
+    "prepublish": "yarn test && yarn build",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "jest": {
     "transform": {
