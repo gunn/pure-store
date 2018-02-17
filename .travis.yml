@@ -6,4 +6,4 @@ env:
 cache:
   directories:
     - "node_modules"
-script: yarn test
+script: yarn test && yarn coveralls

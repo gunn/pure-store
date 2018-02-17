@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "prepublish": "yarn test && yarn build"
   },
   "jest": {
@@ -27,6 +28,7 @@
   ],
   "devDependencies": {
     "@types/jest": "^22.1.1",
+    "coveralls": "^3.0.0",
     "jest": "^22.1.4",
     "ts-jest": "^22.0.2",
     "typescript": "^2.7.1"
