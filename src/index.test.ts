@@ -3,13 +3,11 @@ import createStore from "./index"
 
 interface State {
   numberOfWalks: number
-  animals: [
-    {
-      name: string
-      age: number
-      isBad?: boolean
-    }
-  ]
+  animals: {
+    name: string
+    age: number
+    isBad?: boolean
+  }[]
 }
 
 const state: State = {
@@ -58,14 +56,37 @@ test("More Updating", ()=> {
   expect(store.state.animals.length).toBe(3)
 })
 
-test("Using a sub-store", ()=> {
-  const odinStore = store.storeFor(s=> s.animals[2])
+describe("Sub-stores", ()=> {
+  test("Basic usage", ()=> {
+    const odinStore = store.storeFor(s=> s.animals[2])
+  
+    expect(odinStore.state.name).toBe("Odin")
+    expect(odinStore.state.isBad).toBe(undefined)
+  
+    odinStore.update({isBad: true})
+    expect(odinStore.state.isBad).toBe(true)
+  })
 
-  expect(odinStore.state.name).toBe("Odin")
-  expect(odinStore.state.isBad).toBe(undefined)
+  test("a sub-sub-store", ()=> {
+    const animalsStore = store.storeFor(s=> s.animals)
+    const aiofeStore   = animalsStore.storeFor(s=> s[0])
 
-  odinStore.update({isBad: true})
-  expect(odinStore.state.isBad).toBe(true)
+    expect(aiofeStore.state.name).toBe("Aiofe")
+  })
+})
+
+describe("A store for a single property", ()=> {
+  const walksStore = store.storeFor(s=> s.numberOfWalks)
+
+  test("Can get a single property's state", ()=> {
+    expect(walksStore.state).toBe(100)
+  })
+
+  test("Can't update a store with a single property", ()=> {
+    walksStore.update(n=> n += 50)
+
+    expect(walksStore.state).not.toBe(150)
+  })
 })
 
 
@@ -100,4 +121,29 @@ test("Updaters", ()=> {
 
   aiofeUpdater(aiofe=> aiofe.isBad = false)
   expect(store.state.animals[0].isBad).toBe(false)
+})
+
+describe("Subscriptions", ()=> {
+  test("subscriptions are called", ()=> {
+    let callbackCalled = false
+    store.subscribe(()=> callbackCalled = true)
+    expect(callbackCalled).toBe(false)
+
+    store.update(s=> s.numberOfWalks++)
+    expect(callbackCalled).toBe(true)
+  })
+
+  test("updating with a sub-store trigger subscribed callbacks", ()=> {
+    const senStore = store.storeFor(s=> s.animals[1])
+    let callbackCalled = false
+    store.subscribe(()=> callbackCalled = true)
+    senStore.update(s=> s.age++)
+
+    expect(callbackCalled).toBe(true)
+  })
+
+  test("sub-stores can't be subscribed to", ()=> {
+    const senStore = store.storeFor(s=> s.animals[1])
+    expect(()=> senStore.subscribe(()=> null)).toThrowError("Only the top level store can be subscribed to.")
+  })
 })

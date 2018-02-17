@@ -1,36 +1,35 @@
 import produce from "immer"
 
-
 export class PureStore<S, T> {
   callbacks = []
-  state?: T
-  getter?: (s: S)=>T = null
+  rootState: T
+  getter: (s: S)=>T
   root: any
+  parent: any
 
-  constructor(rootState: S, getter?: (s: S)=>T, root?) {
-    this.root = root || this
-    this.getter = getter || (s=> <T><any>s)
-    this.state = this.getter(rootState)
+  constructor(parent, getter: (s: S)=>T, rootState?: T) {
+    this.parent = parent
+    this.root = (parent && parent.root) || this
+    if (!parent) this.rootState = rootState
+    this.getter = (s: S)=> getter(parent ? parent.getter(s) : s)
   }
 
-  update = (updater: ((e: T)=> void)|Partial<T>)=> {
-    let updaterFn: (e: T)=> void = <any>updater
-    if (!(updater instanceof Function))
-      updaterFn = e=> Object.assign(e, updater)
+  getState = ()=> this.getter(this.root.rootState)
+  get state() { return this.getState() }
 
-    this.root.state = produce(this.root.state, s=> {
+  update = (updater: ((e: T)=> void)|Partial<T>)=> {
+    const updaterFn = (updater instanceof Function) ?
+      updater : e=> Object.assign(e, updater)
+
+    this.root.rootState = produce(this.root.rootState, s=> {
       updaterFn(this.getter(s))
     })
 
-    this.state = this.getter(this.root.state)
-    this.callbacks.forEach(callback=> callback())
+    this.root.callbacks.forEach(callback=> callback())
   }
 
-  storeFor = <X>(getter: (s: S)=>X)=>
-    new PureStore(this.root.state, getter, this)
-
-  updaterFor = <X>(getter: (s: S)=>X)=>
-    this.storeFor(getter).update
+  storeFor   = <X>(getter: (s: T)=>X)=> new PureStore(this, getter)
+  updaterFor = <X>(getter: (s: T)=>X)=> this.storeFor(getter).update
 
   subscribe = callback=> {
     if (this.root != this)
@@ -42,5 +41,5 @@ export class PureStore<S, T> {
 }
 
 export default <S>(state: S)=> (
-  new PureStore(state, (s: S)=> s)
+  new PureStore(null, (s: S)=> s, state)
 )
