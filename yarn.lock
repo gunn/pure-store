@@ -935,10 +935,6 @@ find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-flow-bin@^0.64.0:
-  version "0.64.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.64.0.tgz#ddd3fb3b183ab1ab35a5d5dec9caf5ebbcded167"
-
 for-in@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -1235,11 +1231,8 @@ iconv-lite@0.4.19:
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.19.tgz#f7468f60135f5e5dad3399c0a81be9a1603a082b"
 
 immer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/immer/-/immer-1.0.0.tgz#74023a3370e32cbf470e4c7a3267245d892496b9"
-  dependencies:
-    cpx "^1.5.0"
-    flow-bin "^0.64.0"
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-1.6.0.tgz#4e41801272d64bff12d4b58ada0276bb2f4ead81"
 
 import-local@^1.0.0:
   version "1.0.0"
