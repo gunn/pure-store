@@ -46,7 +46,7 @@ const state: State = {
 const store = createStore(state)
 ```
 
-### `getState()` / `state`
+### `state` / `getState()`
 Returns the current state from the store.
 
 ```jsx
@@ -113,14 +113,14 @@ console.log(store.user.profile.address.city)
 store.update(s=> s.user.profile.address.city = "Wellington")
 
 // vs
-const addressStore = store.updaterFor(s=> s.user.profile.address)
+const addressStore   = store.storeFor(s=> s.user.profile.address)
 const addressUpdater = store.updaterFor(s=> s.user.profile.address)
 
 // and then:
 console.log(addressStore.state.city)
 addressUpdater(a=> a.city = "Wellington")
 ```
-Which could be useful in some larger projects.
+Which can be useful in larger projects.
 
 ## Patterns
 
@@ -159,3 +159,7 @@ window.addEventListener("beforeunload", ()=> {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(store.state))
 })
 ```
+
+## Future
+
+`pure-store` is stable now, and I do not anticipate a need to change the API. The focus for now is improving the documentation.
