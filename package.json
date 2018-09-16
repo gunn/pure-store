@@ -31,7 +31,7 @@
     "coveralls": "^3.0.0",
     "jest": "^22.1.4",
     "ts-jest": "^22.0.2",
-    "typescript": "^2.7.1"
+    "typescript": "^3.0.0"
   },
   "dependencies": {
     "immer": "^1.0.0"
