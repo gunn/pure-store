@@ -1,6 +1,6 @@
 {
   "name": "pure-store",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A tiny immutable store with type safety.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
