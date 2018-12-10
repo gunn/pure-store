@@ -142,6 +142,19 @@ describe("Subscriptions", ()=> {
     expect(callbackCalled).toBe(true)
   })
 
+  test('subscriptions can be cancelled', ()=> {
+    let count = 0
+    const cancelSubscription = store.subscribe(()=> count++)
+
+    store.update(s=> s.numberOfWalks++)
+    store.update(s=> s.numberOfWalks++)
+    expect(count).toBe(2)
+
+    cancelSubscription()
+    store.update(s=> s.numberOfWalks++)
+    expect(count).toBe(2)
+  })
+
   test("sub-stores can't be subscribed to", ()=> {
     const senStore = store.storeFor(s=> s.animals[1])
     expect(()=> senStore.subscribe(()=> null)).toThrowError("Only the top level store can be subscribed to.")
