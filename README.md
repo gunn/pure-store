@@ -96,7 +96,7 @@ store.subscribe(render)
 render()
 ```
 
-You could also use forceUpdate within a component e.g.:
+You could also use forceUpdate within a class component e.g.:
 ```javascript
 class App extends React.Component {
   constructor() {
@@ -104,9 +104,20 @@ class App extends React.Component {
   }
   //...
 ```
-Within a funcional component you may want to use the following React Hook :
+Within a functional component you may want to use something similar to the following hook :
 ```js
-const forceUpdate = () => {   const [x, forceUpdate] = useReducer((x) => x + 1, 0)   store.subscribe(() => forceUpdate()) }
+const forceUpdate = () => {   
+  const [ignore, forceUpdate] = useReducer((x) => x + 1, 0)
+  store.subscribe(() => forceUpdate())
+}
+
+const Example = () => {
+  forceUpdate()
+  return (
+    //...
+  )
+}
+
 ```
 
 ### bonus: `storeFor(getter)` & `updaterFor(getter)`
