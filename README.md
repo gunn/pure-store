@@ -104,6 +104,10 @@ class App extends React.Component {
   }
   //...
 ```
+Within a funcional component you may want to use the following React Hook :
+```js
+const forceUpdate = () => {   const [x, forceUpdate] = useReducer((x) => x + 1, 0)   store.subscribe(() => forceUpdate()) }
+```
 
 ### bonus: `storeFor(getter)` & `updaterFor(getter)`
 These methods let you define a subset of the store as a shortcut, so you don't have to reference the whole chain every time.
