@@ -11,7 +11,7 @@
 `pure-store` is a fast, simple, immutable store that lets you update state directly (i.e. imperatively). It also works excellently with typescript.
 
 ## Comparison with redux
-<img src="comparison.png" width="914" height="768" />
+<img src="comparison.png" width="914"/>
 
 ## With React Hooks
 `pure-store` can be used without react, but if you are using react you can use the `usePureStore` hook. We could create the simple counter from the image above like this:
