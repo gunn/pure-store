@@ -1,4 +1,7 @@
 node_modules
-dist
-dist-esm
-coverage
+/dist
+/coverage
+/index.js
+/index.d.ts
+/react.js
+/react.d.ts

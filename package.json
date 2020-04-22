@@ -2,15 +2,15 @@
   "name": "pure-store",
   "version": "1.0.0",
   "description": "A tiny immutable store with type safety.",
-  "module": "dist-esm/index.js",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "index.js",
+  "types": "index.d.ts",
   "repository": "https://github.com/gunn/pure-store",
   "author": "Arthur Gunn",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && yarn build-esm",
-    "build-esm": "tsc -m es2015 --outDir dist-esm",
+    "build": "tsc --outDir dist && yarn build-esm",
+    "build-esm": "tsc -m es2015 --outDir .",
     "test": "jest",
     "prepublish": "yarn test && yarn build",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
@@ -23,8 +23,8 @@
     "moduleFileExtensions": [ "ts", "tsx", "js" ]
   },
   "files": [
-    "dist",
-    "dist-esm"
+    "src",
+    "dist"
   ],
   "devDependencies": {
     "@types/jest": "^25.2.1",
