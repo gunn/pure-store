@@ -189,3 +189,41 @@ describe("Using usePureStore with a getter", ()=> {
     expect(appDescription).toBe("2 lists, 0 uncompleted")
   })
 })
+
+
+
+const renderStore = createStore({ count: 0 })
+const RenderTest = React.memo(()=> {
+  const [{ count }] = renderStore.usePureStore()
+
+return <span>{ count } - { Math.random() }</span>
+})
+
+
+describe("Using a component with usePureStore()", ()=> {
+  test("Re-renders with new values", ()=> {
+    act(()=> { ReactDOM.render(<RenderTest />, container) })
+    const value1 = container.querySelector("span").textContent
+
+    act(()=> {
+      renderStore.update(s=> s.count++)
+      ReactDOM.render(<RenderTest />, container)
+    })
+    const value2 = container.querySelector("span").textContent
+
+    expect(value1).not.toBe(value2)
+  })
+
+  test("Does not re-render with unchanged values", ()=> {
+    act(()=> { ReactDOM.render(<RenderTest />, container) })
+    const value1 = container.querySelector("span").textContent
+
+    act(()=> {
+      renderStore.update(s=> s.count = s.count)
+      ReactDOM.render(<RenderTest />, container)
+    })
+    const value2 = container.querySelector("span").textContent
+
+    expect(value1).toBe(value2)
+  })
+})
