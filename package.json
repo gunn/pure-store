@@ -1,10 +1,11 @@
 {
   "name": "pure-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A tiny immutable store with type safety.",
   "main": "dist/index.js",
   "module": "index.js",
   "types": "index.d.ts",
+  "sideEffects": false,
   "repository": "https://github.com/gunn/pure-store",
   "author": "Arthur Gunn",
   "license": "MIT",
@@ -20,7 +21,11 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "((\\.|/)test)\\.tsx?$",
-    "moduleFileExtensions": [ "ts", "tsx", "js" ]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
   },
   "files": [
     "src",
