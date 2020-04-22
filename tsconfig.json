@@ -3,6 +3,7 @@
     "module": "commonjs",
     "target": "es5",
     "moduleResolution": "node",
+    "jsx": "react",
     "noImplicitAny": false,
     "sourceMap": false,
     "declaration": true,
@@ -13,8 +14,8 @@
       "dom"
     ]
   },
-  "files": [
-    "src/index.ts"
+  "include": [
+    "src/*"
   ],
   "exclude": [
     "src/*.test.ts"
