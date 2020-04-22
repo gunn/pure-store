@@ -32,11 +32,8 @@ export class PureStore<S, T> {
   updaterFor = <X>(getter: (s: T)=>X)=> this.storeFor(getter).update
 
   subscribe = callback=> {
-    if (this.root != this)
-      throw "Only the top level store can be subscribed to."
-
-    this.callbacks.push(callback)
-    return ()=> this.callbacks.splice(this.callbacks.indexOf(callback), 1)
+    this.root.callbacks.push(callback)
+    return ()=> this.root.callbacks.splice(this.root.callbacks.indexOf(callback), 1)
   }
 }
 
