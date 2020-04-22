@@ -1,6 +1,6 @@
 {
   "name": "pure-store",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A tiny immutable store with type safety.",
   "main": "dist/index.js",
   "module": "index.js",
@@ -29,7 +29,11 @@
   },
   "files": [
     "src",
-    "dist"
+    "dist",
+    "index.js",
+    "index.d.ts",
+    "react.js",
+    "react.d.ts"
   ],
   "devDependencies": {
     "@types/jest": "^25.2.1",
