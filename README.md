@@ -8,16 +8,37 @@
 
 > Just edit your app's state.
 
-`pure-store` is a fast, simple, immutable state store that lets you update state directly (i.e. imperatively). It also works excellently with typescript.
+`pure-store` is a fast, simple, immutable store that lets you update state directly (i.e. imperatively). It also works excellently with typescript.
 
 ## Comparison with redux
-<img src="comparison.png" width="888" />
+<img src="comparison.png" width="914" height="768" />
 
-## API
-To use `pure-store` effectively you need to create a store, and know how to use three methods.
+## With React Hooks
+`pure-store` can be used without react, but if you are using react you can use the `usePureStore` hook. We could create the simple counter from the image above like this:
+```javascript
+import createStore from "pure-store/react"
+
+const store = createStore({ count: 0 })
+
+export default ()=> {
+  const [state, update] = store.usePureStore()
+
+  return (
+    <div>
+      Counter: { state.count }
+      <a onClick={()=> update({count: count+1})}> + </a>
+      <a onClick={()=> update({count: count-1})}> - </a>
+    </div>
+  )
+}
+```
+If you use react, then congratulations - you know everything you need to to manage state in your app. Because the data is updated immutably, you can pass pieces of the store's state to your `React.memo` components and they will re-render only when the data has changed giving you excellent performance.
+
+## Without Hooks
+To use `pure-store` without react hooks you need to create a store, and know how to use a couple of methods.
 
 ### `createStore(initialState)`
-Creates a new store with an initial state. You can create multiple indepandent stores, although usually one is enough.
+Creates a new store with an initial state. You can create multiple independent stores, although usually one is enough.
 
 ```javascript
 import createStore from 'pure-store'
@@ -105,7 +126,7 @@ class App extends React.Component {
   //...
 ```
 
-### bonus: `storeFor(getter)` & `updaterFor(getter)`
+### bonus: `storeFor(getter)`, `updaterFor(getter)`, and usePureStore(getter)
 These methods let you define a subset of the store as a shortcut, so you don't have to reference the whole chain every time.
 
 ```javascript
