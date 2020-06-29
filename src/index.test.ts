@@ -133,6 +133,16 @@ describe("Subscriptions", ()=> {
     expect(callbackCalled).toBe(true)
   })
 
+  test("subscriptions aren't called if data isn't changed", ()=> {
+    let callbackCalled = false
+    store.subscribe(()=> callbackCalled = true)
+    expect(callbackCalled).toBe(false)
+
+    const numberOfWalks = store.state.numberOfWalks
+    store.update({ numberOfWalks })
+    expect(callbackCalled).toBe(false)
+  })
+
   test("updating with a sub-store trigger subscribed callbacks", ()=> {
     const senStore = store.storeFor(s=> s.animals[1])
     let callbackCalled = false

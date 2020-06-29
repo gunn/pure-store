@@ -21,11 +21,15 @@ export class PureStore<S, T> {
     const updaterFn = (updater instanceof Function) ?
       updater : e=> Object.assign(e, updater)
 
+    const oldState = this.root.rootState
+
     this.root.rootState = produce(this.root.rootState, s=> {
       updaterFn(this.getter(s))
     })
 
-    this.root.callbacks.forEach(callback=> callback())
+    if (this.root.rootState !== oldState) {
+      this.root.callbacks.forEach(callback=> callback())
+    }
   }
 
   storeFor   = <X>(getter: (s: T)=>X)=> new PureStore(this, getter)
