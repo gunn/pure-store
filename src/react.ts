@@ -13,7 +13,7 @@ class PureStoreReact<S, T> extends PureStore<S, T> {
     const [_, setState] = React.useState(this.getState())
 
     React.useEffect(()=> {
-      this.subscribe(()=> setState(this.getState()))
+      return this.subscribe(()=> setState(this.getState()))
     }, [])
 
     return [this.getState(), this.update] as const
